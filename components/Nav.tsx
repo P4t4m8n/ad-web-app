@@ -78,7 +78,26 @@ export default function Nav() {
             </span>
           </li>
         ))}
-        <li></li>
+        <li key="admin" className="relative group ">
+          <Link className=" relative  " href="/admin">
+            <Image
+              src="/icons/admin.png"
+              alt=""
+              className={`w-20 h-20 transition-all duration-200 object-cover ${
+                pathname === "/admin" ? "" : "filter"
+              }`}
+              width={256}
+              height={256}
+            />
+          </Link>
+          <span
+            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
+                            text-white text-sm md:text-shadow-[0px_0px_3px_black] group-hover:text-black
+                             text-center whitespace-nowrap pointer-events-none"
+          >
+            Admin
+          </span>
+        </li>
       </ul>
     </nav>
   );
