@@ -27,7 +27,9 @@ export const loggerService: LoggerService = {
 };
 
 const logsDir = "./logs";
-if (!fs.existsSync(logsDir)) {
+// Serverless platforms (Vercel, etc.) have a read-only filesystem, so file logging is dev-only.
+const canWriteLogs = !process.env.VERCEL;
+if (canWriteLogs && !fs.existsSync(logsDir)) {
   fs.mkdirSync(logsDir);
 }
 
@@ -48,8 +50,14 @@ const stringifyArg = (arg: LogArgument): string => {
 
 const doLog = (level: LogLevel, ...args: LogArgument[]): void => {
   const strs = args.map(stringifyArg);
-  const line = `${getTime()} - ${level} - ${strs.join(" | ")}\n`;
-  fs.appendFile("./logs/backend.log", line, (err) => {
+  const line = `${getTime()} - ${level} - ${strs.join(" | ")}`;
+
+  if (!canWriteLogs) {
+    console.log(line);
+    return;
+  }
+
+  fs.appendFile("./logs/backend.log", line + "\n", (err) => {
     if (err) console.error("FATAL: cannot write to log file");
   });
 };
