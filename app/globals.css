@@ -1,26 +1,31 @@
+@import url("https://use.typekit.net/jqn6qws.css");
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --font-abrilFatface: "Abril Fatface", sans-serif;
+  --font-droid: "Droid Sans", arial, sans-serif;
+  --primary-color: rgb(16, 120, 158);
+  --color-header: var(--primary-color);
+  --blue-filter: grayscale(0) sepia(1) saturate(2) hue-rotate(175deg);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-droid);
 }
+.filter {
+  filter: var(--blue-filter);
+}
+
+/* .nav {
+  img {
+    transition: filter 0.3s;
+  }
+  &:hover {
+    img {
+      filter: none;
+    }
+    span {
+      color: var(--primary-color);
+    }
+  }
+} */
