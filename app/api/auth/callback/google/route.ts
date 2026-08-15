@@ -1,10 +1,14 @@
 import { AppError } from "@/utils/AppError.server";
-import { createSessionToken, SESSION_COOKIE_NAME } from "@/utils/session.server";
+import {
+  createSessionToken,
+  SESSION_COOKIE_NAME,
+} from "@/utils/session.server";
 import { NextResponse, NextRequest } from "next/server";
 
 const CLIENT_ID = process.env.GOOGLE_CLIENT_ID!;
 const CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET!;
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL!;
+const TEST_EMAIL = process.env.TEST_EMAIL!;
 
 function getRedirectUri(req: NextRequest) {
   return `${req.nextUrl.origin}/api/auth/callback/google`;
@@ -52,7 +56,7 @@ export async function GET(req: NextRequest) {
         headers: {
           Authorization: `Bearer ${accessToken}`,
         },
-      }
+      },
     );
 
     if (!userInfoResponse.ok) {
@@ -65,7 +69,8 @@ export async function GET(req: NextRequest) {
     if (
       !userInfo.verified_email ||
       typeof userInfo.email !== "string" ||
-      userInfo.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase()
+      (userInfo.email.toLowerCase() !== ADMIN_EMAIL.toLowerCase() &&
+        userInfo.email.toLowerCase() !== TEST_EMAIL.toLowerCase())
     ) {
       throw AppError.create("This Google account is not authorized", 403, true);
     }
