@@ -9,7 +9,7 @@ export default async function MainLayout({
   return (
     <>
       <AppHeader />
-      <main className="w-full h-full bg-gradient-to-b ">{children}</main>
+      <main className="w-full h-full bg-linear-to-b ">{children}</main>
       <AppFooter />
     </>
   );

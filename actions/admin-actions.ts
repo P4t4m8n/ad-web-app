@@ -1,5 +1,6 @@
 "use server";
 
+import { z } from "zod";
 import { revalidatePath } from "next/cache";
 import { requireAdminSession } from "@/utils/admin-session.server";
 import { uploadImage, deleteImage } from "@/utils/cloudinary.server";
@@ -12,12 +13,37 @@ import {
 import { AppError } from "@/utils/AppError.server";
 import { CATEGORIES, TCategory } from "@/types/app";
 
-const parseCategory = (value: FormDataEntryValue | null): TCategory => {
-  if (typeof value !== "string" || !CATEGORIES.includes(value as TCategory)) {
-    throw AppError.create("Invalid category", 400, true);
-  }
+const itemFieldsSchema = z.object({
+  category: z.enum(CATEGORIES),
+  text: z.string().trim().min(1, "Text is required"),
+  width: z.coerce.number().positive("Width must be a positive number"),
+  height: z.coerce.number().positive("Height must be a positive number"),
+  material: z.string().trim().min(1, "Material is required"),
+  technique: z.string().trim().min(1, "Technique is required"),
+});
 
-  return value as TCategory;
+const updateFieldsSchema = itemFieldsSchema.extend({
+  id: z.string().min(1, "Missing item id"),
+});
+
+const deleteFieldsSchema = z.object({
+  id: z.string().min(1, "Missing item id"),
+  category: z.enum(CATEGORIES),
+});
+
+const parseFormData = <T extends z.ZodType>(
+  schema: T,
+  formData: FormData,
+): z.infer<T> => {
+  const result = schema.safeParse(Object.fromEntries(formData));
+  if (!result.success) {
+    throw AppError.create(
+      result.error.issues[0]?.message ?? "Invalid input",
+      400,
+      true,
+    );
+  }
+  return result.data;
 };
 
 const revalidateCategory = (category: TCategory) => {
@@ -28,13 +54,10 @@ const revalidateCategory = (category: TCategory) => {
 export const createItem = async (formData: FormData) => {
   await requireAdminSession();
 
-  const category = parseCategory(formData.get("category"));
-  const text = String(formData.get("text") ?? "").trim();
+  const { category, text, width, height, material, technique } =
+    parseFormData(itemFieldsSchema, formData);
   const file = formData.get("image");
 
-  if (!text) {
-    throw AppError.create("Text is required", 400, true);
-  }
   if (!(file instanceof File) || file.size === 0) {
     throw AppError.create("Image is required", 400, true);
   }
@@ -46,6 +69,10 @@ export const createItem = async (formData: FormData) => {
     text,
     imgUrl: uploaded.url,
     imgPublicId: uploaded.publicId,
+    width,
+    height,
+    material,
+    technique,
   });
 
   revalidateCategory(category);
@@ -54,20 +81,24 @@ export const createItem = async (formData: FormData) => {
 export const updateItem = async (formData: FormData) => {
   await requireAdminSession();
 
-  const id = String(formData.get("id") ?? "");
-  const category = parseCategory(formData.get("category"));
-  const text = String(formData.get("text") ?? "").trim();
+  const { id, category, text, width, height, material, technique } =
+    parseFormData(updateFieldsSchema, formData);
   const file = formData.get("image");
 
-  if (!id) {
-    throw AppError.create("Missing item id", 400, true);
-  }
-  if (!text) {
-    throw AppError.create("Text is required", 400, true);
-  }
-
-  const update: { text: string; imgUrl?: string; imgPublicId?: string } = {
+  const update: {
+    text: string;
+    width: number;
+    height: number;
+    material: string;
+    technique: string;
+    imgUrl?: string;
+    imgPublicId?: string;
+  } = {
     text,
+    width,
+    height,
+    material,
+    technique,
   };
 
   if (file instanceof File && file.size > 0) {
@@ -89,12 +120,7 @@ export const updateItem = async (formData: FormData) => {
 export const deleteItem = async (formData: FormData) => {
   await requireAdminSession();
 
-  const id = String(formData.get("id") ?? "");
-  const category = parseCategory(formData.get("category"));
-
-  if (!id) {
-    throw AppError.create("Missing item id", 400, true);
-  }
+  const { id, category } = parseFormData(deleteFieldsSchema, formData);
 
   const deleted = await deleteItemById(id);
   if (deleted) {

@@ -10,6 +10,10 @@ type TItemDocument = {
   text: string;
   imgUrl: string;
   imgPublicId: string;
+  width: number;
+  height: number;
+  material: string;
+  technique: string;
   createdAt: Date;
 };
 
@@ -20,6 +24,10 @@ const toItem = (doc: TItemDocument): TItem => {
     imgPath: doc.imgUrl,
     imgId: doc.imgPublicId,
     category: doc.category,
+    width: doc.width ?? 0,
+    height: doc.height ?? 0,
+    material: doc.material ?? "",
+    technique: doc.technique ?? "",
   };
 };
 
@@ -41,6 +49,10 @@ export const insertItem = async (data: {
   text: string;
   imgUrl: string;
   imgPublicId: string;
+  width: number;
+  height: number;
+  material: string;
+  technique: string;
 }): Promise<TItem> => {
   const db = await getDb();
   const doc: TItemDocument = {
@@ -54,7 +66,18 @@ export const insertItem = async (data: {
 
 export const updateItemById = async (
   id: string,
-  data: Partial<Pick<TItemDocument, "text" | "imgUrl" | "imgPublicId">>,
+  data: Partial<
+    Pick<
+      TItemDocument,
+      | "text"
+      | "imgUrl"
+      | "imgPublicId"
+      | "width"
+      | "height"
+      | "material"
+      | "technique"
+    >
+  >,
 ): Promise<void> => {
   const db = await getDb();
   await db

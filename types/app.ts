@@ -13,4 +13,21 @@ export type TItem = {
   id: string;
   imgId: string;
   category: TCategory;
+  width: number;
+  height: number;
+  material: string;
+  technique: string;
+};
+
+// Combines an item's fields into the single caption string used wherever it's displayed.
+export const formatItemDetails = (item: TItem): string => {
+  const parts: string[] = [item.text];
+
+  if (item.width > 0 && item.height > 0) {
+    parts.push(`${item.width}×${item.height} cm`);
+  }
+  if (item.material) parts.push(item.material);
+  if (item.technique) parts.push(item.technique);
+
+  return parts.filter(Boolean).join(" · ");
 };

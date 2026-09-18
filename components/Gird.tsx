@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { TItem } from "@/types/app";
+import { formatItemDetails, TItem } from "@/types/app";
 import Image from "next/image";
 
 interface GirdProps {
@@ -39,7 +39,7 @@ export default function Gird({ items }: GirdProps) {
   return (
     <>
       <ul
-        className="mx-auto lg:w-[50%] gap-6 columns-[12.5rem] p-4"
+        className="m-auto lg:w-[50%] gap-6 columns-[5.5rem] p-4 h-full"
         // never allocate more columns than there are items, so a handful of
         // images stretch to fill the row instead of leaving empty columns
         style={{ columnCount: Math.max(items.length, 1) }}
@@ -47,7 +47,7 @@ export default function Gird({ items }: GirdProps) {
         {items.map((item, index) => (
           <li
             key={item.id}
-            className="group relative mb-6 break-inside-avoid rounded-[5px] border-2 border-black p-1.25 shadow-[5px_5px_5px_rgba(0,0,0,0.5)] transition-colors duration-250 hover:border-header"
+            className="group relative mb-6 break-inside-avoid rounded-[5px] border-2 border-black p-1.25 shadow-[5px_5px_5px_rgba(0,0,0,0.5)] transition-colors duration-250 "
           >
             <button
               type="button"
@@ -56,7 +56,7 @@ export default function Gird({ items }: GirdProps) {
               aria-label={`View full size image: ${item.text}`}
             >
               <Image
-                className="w-full p-2 transition-all duration-250 group-hover:bg-header group-hover:filter-none"
+                className="w-full p-2 transition-all duration-250  group-hover:filter-none overflow-hidden hover:scale-115"
                 src={item.imgPath}
                 alt={item.text}
                 width={1024}
@@ -120,18 +120,23 @@ export default function Gird({ items }: GirdProps) {
           )}
 
           <div
-            className="relative h-[85vh] w-[90vw]"
+            className="flex max-h-full max-w-full flex-col items-center gap-3"
             onClick={(e) => e.stopPropagation()}
           >
-            <Image
-              key={activeItem.id}
-              src={activeItem.imgPath}
-              alt={activeItem.text}
-              fill
-              sizes="90vw"
-              priority
-              className="object-contain"
-            />
+            <div className="relative h-[75vh] w-[75vw]">
+              <Image
+                key={activeItem.id}
+                src={activeItem.imgPath}
+                alt={activeItem.text}
+                fill
+                sizes="75vw"
+                priority
+                className="object-contain"
+              />
+            </div>
+            <p className="max-w-[90vw] text-center text-sm text-white/90">
+              {formatItemDetails(activeItem)}
+            </p>
           </div>
         </div>
       )}
