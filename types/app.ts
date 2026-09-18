@@ -1,7 +1,7 @@
 export const CATEGORIES = [
   "fan-art",
   "nose-art",
-  "illustration",
+  "fine-art",
   "portraits",
 ] as const;
 
