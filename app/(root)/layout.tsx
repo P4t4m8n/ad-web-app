@@ -7,10 +7,16 @@ export default async function MainLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <AppHeader />
-      <main className="w-full h-full bg-linear-to-b ">{children}</main>
-      <AppFooter />
-    </>
+    <div className="relative min-h-screen bg-[url('/icons/home.jpg')] bg-cover bg-center bg-fixed bg-no-repeat">
+      {/* lightens the photo background so text stays readable on top of it */}
+      <div className="absolute inset-0 bg-white/85" />
+      <div className="relative flex min-h-screen flex-col">
+        <AppHeader />
+        <main className="w-full h-full flex-1 bg-linear-to-b ">
+          {children}
+        </main>
+        <AppFooter />
+      </div>
+    </div>
   );
 }

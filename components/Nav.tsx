@@ -9,13 +9,13 @@ export default function Nav() {
   const items = [
     {
       icon: "/icons/illustration.png",
-      href: "/fan-art",
-      text: "Fan Art",
+      href: "/illustration",
+      text: "illustration",
     },
     {
       icon: "/icons/fan.png",
-      href: "/fine-art",
-      text: "Fine Art",
+      href: "/fan-art",
+      text: "Fan Art",
     },
     {
       icon: "/icons/nose.png",
@@ -79,26 +79,7 @@ export default function Nav() {
             </Link>
           </li>
         ))}
-        <li key="admin" className="relative group ">
-          <Link className=" relative  " href="/admin">
-            <Image
-              src="/icons/admin.png"
-              alt=""
-              className={`w-20 h-20 transition-all duration-200 object-cover ${
-                pathname === "/admin" ? "" : "filter"
-              }`}
-              width={256}
-              height={256}
-            />
-          </Link>
-          <span
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
-                            text-white text-sm md:text-shadow-[0px_0px_3px_black] group-hover:text-black
-                             text-center whitespace-nowrap pointer-events-none"
-          >
-            Admin
-          </span>
-        </li>
+      
       </ul>
     </nav>
   );
