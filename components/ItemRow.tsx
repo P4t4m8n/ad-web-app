@@ -54,7 +54,12 @@ export default function ItemRow({ item }: { item: TItem }) {
   return (
     <li className="group overflow-hidden rounded-2xl border border-zinc-200 bg-white shadow-sm transition-shadow hover:shadow-md">
       <div className="relative aspect-square w-full bg-zinc-50">
-        <Image src={item.imgPath} alt={item.text} fill className="object-cover" />
+        <Image
+          src={item.imgPath}
+          alt={item.text || "Artwork image"}
+          fill
+          className="object-cover"
+        />
       </div>
 
       <div className="grid gap-3 p-4">
@@ -103,7 +108,6 @@ export default function ItemRow({ item }: { item: TItem }) {
             <input
               name="text"
               defaultValue={item.text}
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
@@ -117,7 +121,6 @@ export default function ItemRow({ item }: { item: TItem }) {
                 min="0"
                 step="0.1"
                 defaultValue={item.width || undefined}
-                required
                 className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
               />
             </label>
@@ -129,7 +132,6 @@ export default function ItemRow({ item }: { item: TItem }) {
                 min="0"
                 step="0.1"
                 defaultValue={item.height || undefined}
-                required
                 className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
               />
             </label>
@@ -140,7 +142,6 @@ export default function ItemRow({ item }: { item: TItem }) {
             <input
               name="material"
               defaultValue={item.material}
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
@@ -150,7 +151,6 @@ export default function ItemRow({ item }: { item: TItem }) {
             <input
               name="technique"
               defaultValue={item.technique}
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
@@ -179,7 +179,12 @@ export default function ItemRow({ item }: { item: TItem }) {
                 className="h-full w-full object-contain"
               />
             ) : (
-              <Image src={item.imgPath} alt={item.text} fill className="object-contain" />
+              <Image
+                src={item.imgPath}
+                alt={item.text || "Artwork image"}
+                fill
+                className="object-contain"
+              />
             )}
           </div>
 

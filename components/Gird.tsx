@@ -53,12 +53,12 @@ export default function Gird({ items }: GirdProps) {
               type="button"
               onClick={() => setActiveIndex(index)}
               className="block w-full cursor-zoom-in"
-              aria-label={`View full size image: ${item.text}`}
+              aria-label={`View full size image: ${item.text || "Artwork"}`}
             >
               <Image
                 className="w-full p-2 transition-all duration-250  group-hover:filter-none overflow-hidden hover:scale-115"
                 src={item.imgPath}
-                alt={item.text}
+                alt={item.text || "Artwork image"}
                 width={1024}
                 height={0}
                 loading="eager"
@@ -79,7 +79,7 @@ export default function Gird({ items }: GirdProps) {
         <div
           role="dialog"
           aria-modal="true"
-          aria-label={activeItem.text}
+          aria-label={activeItem.text || "Artwork"}
           onClick={close}
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4"
         >

@@ -13,13 +13,25 @@ import {
 import { AppError } from "@/utils/AppError.server";
 import { CATEGORIES, TCategory } from "@/types/app";
 
+const blankToUndefined = (val: unknown) =>
+  typeof val === "string" && val.trim() === "" ? undefined : val;
+
+const optionalText = z.preprocess(
+  blankToUndefined,
+  z.string().trim().optional(),
+);
+const optionalDimension = z.preprocess(
+  blankToUndefined,
+  z.coerce.number().positive("Must be a positive number").optional(),
+);
+
 const itemFieldsSchema = z.object({
   category: z.enum(CATEGORIES),
-  text: z.string().trim().min(1, "Text is required"),
-  width: z.coerce.number().positive("Width must be a positive number"),
-  height: z.coerce.number().positive("Height must be a positive number"),
-  material: z.string().trim().min(1, "Material is required"),
-  technique: z.string().trim().min(1, "Technique is required"),
+  text: optionalText,
+  width: optionalDimension,
+  height: optionalDimension,
+  material: optionalText,
+  technique: optionalText,
 });
 
 const updateFieldsSchema = itemFieldsSchema.extend({
@@ -66,13 +78,13 @@ export const createItem = async (formData: FormData) => {
 
   await insertItem({
     category,
-    text,
+    text: text ?? "",
     imgUrl: uploaded.url,
     imgPublicId: uploaded.publicId,
-    width,
-    height,
-    material,
-    technique,
+    width: width ?? 0,
+    height: height ?? 0,
+    material: material ?? "",
+    technique: technique ?? "",
   });
 
   revalidateCategory(category);
@@ -94,11 +106,11 @@ export const updateItem = async (formData: FormData) => {
     imgUrl?: string;
     imgPublicId?: string;
   } = {
-    text,
-    width,
-    height,
-    material,
-    technique,
+    text: text ?? "",
+    width: width ?? 0,
+    height: height ?? 0,
+    material: material ?? "",
+    technique: technique ?? "",
   };
 
   if (file instanceof File && file.size > 0) {

@@ -58,7 +58,6 @@ export default function ItemForm({ category }: { category: TCategory }) {
             <input
               name="text"
               placeholder="A short description"
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
@@ -71,7 +70,6 @@ export default function ItemForm({ category }: { category: TCategory }) {
                 name="width"
                 min="0"
                 step="0.1"
-                required
                 className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
               />
             </label>
@@ -82,7 +80,6 @@ export default function ItemForm({ category }: { category: TCategory }) {
                 name="height"
                 min="0"
                 step="0.1"
-                required
                 className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
               />
             </label>
@@ -93,7 +90,6 @@ export default function ItemForm({ category }: { category: TCategory }) {
             <input
               name="material"
               placeholder="e.g. Acrylic on canvas"
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
@@ -103,7 +99,6 @@ export default function ItemForm({ category }: { category: TCategory }) {
             <input
               name="technique"
               placeholder="e.g. Oil painting"
-              required
               className="rounded-lg border border-zinc-200 bg-zinc-50 px-3 py-2 text-sm text-zinc-900 outline-none transition-colors focus:border-header focus:ring-2 focus:ring-header/20"
             />
           </label>
