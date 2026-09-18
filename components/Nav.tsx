@@ -8,6 +8,11 @@ export default function Nav() {
 
   const items = [
     {
+      icon: "/icons/illustration.png",
+      href: "/fan-art",
+      text: "Fan Art",
+    },
+    {
       icon: "/icons/fan.png",
       href: "/fine-art",
       text: "Fine Art",
@@ -17,11 +22,7 @@ export default function Nav() {
       href: "/nose-art",
       text: "Nose Art",
     },
-    {
-      icon: "/icons/illustration.png",
-      href: "/fan-art",
-      text: "Fan Art",
-    },
+
     {
       icon: "/icons/portraits.png",
       href: "/portraits",
@@ -47,14 +48,14 @@ export default function Nav() {
               width={64}
               height={64}
             /> */}
-          <span
-            className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
+            <span
+              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
             text-black   group-hover:text-header 
             text-center whitespace-nowrap "
             >
-            Home
-          </span>
-            </Link>
+              Home
+            </span>
+          </Link>
         </li>
         {items.map((item) => (
           <li key={item.href} className="relative group ">
@@ -68,14 +69,14 @@ export default function Nav() {
                 width={256}
                 height={256}
               /> */}
-            <span
-              className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
+              <span
+                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 font-abrilFatface
               text-black text-lg  group-hover:text-black
               text-center whitespace-nowrap "
               >
-              {item.text}
-            </span>
-              </Link>
+                {item.text}
+              </span>
+            </Link>
           </li>
         ))}
         <li key="admin" className="relative group ">
